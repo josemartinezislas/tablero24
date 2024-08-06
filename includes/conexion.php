@@ -12,6 +12,8 @@ if($conexion ->connect_error){
     echo 'Fallo en la conexion !!!';
 }else{
     //echo 'conexion estabecida...!!!';
+        //comentarios del tercer commit
+    //trecer commit================================
 }
 
 ?>
