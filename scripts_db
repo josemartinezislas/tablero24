@@ -1,0 +1,20 @@
+-- Active: 1722638815392@@localhost@3306@db_tablero
+SELECT * FROM t_general;
+
+SELECT id_proy, proy_nom, id_sect, sect_nom, id_mpio, mpio_nom, user_id, user_nom, user_dep, proy_inver
+FROM t_general
+INNER JOIN t_municipios
+ON t_general.proy_mpio = t_municipios.id_mpio
+INNER JOIN t_users
+ON t_general.proy_seg = t_users.user_id
+INNER JOIN t_sector
+ON t_general.proy_sect = t_sector.id_sect
+WHERE t_general.proy_stat = 1
+
+SELECT COUNT(id_proy), SUM(proy_inver)/1000000, SUM(proy_e_dir), SUM(proy_e_ind), SUM(proy_e_dir) + SUM(proy_e_ind)
+FROM t_general 
+WHERE t_general.proy_stat = 1
+
+UPDATE t_general
+SET proy_nom = "ZEMPOALA P&L SOLAR CO."
+WHERE id_proy = 95
