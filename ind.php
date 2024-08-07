@@ -1,6 +1,7 @@
 <?php
 //con esto muestra la información pricipal de la version de php
-//Para la version final.
+//Para la version final. ===>
+//DESDE EL BROWSER
 echo phpinfo();
 echo ('cambios modificados en vs code!!');
 
