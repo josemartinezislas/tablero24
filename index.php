@@ -1,8 +1,11 @@
 <?php
+//comentario
 $host="localhost";
 $usuario="jose";
 $password="302976";
-$db="db_tablero";
+$db="tablero24";
+//$db="db_tablero";
+//$db="api";
 
 $conexion= new mysqli($host,$usuario,$password,$db);
 if($conexion ->connect_error){
@@ -11,6 +14,8 @@ if($conexion ->connect_error){
 }else{
     //echo 'conexion!! ';
 }
+//include 'includes/conexion.php';
+
 
 header("Content-type: application/json");
 
@@ -39,16 +44,6 @@ switch($metodo){
 }
 
 function consulta($conexion, $id){
-    // $sql=   "SELECT id_proy, proy_nom, id_sect, sect_nom, id_mpio, mpio_nom, user_id, user_nom, user_dep
-    //         FROM t_general
-    //         INNER JOIN t_municipios
-    //         ON t_general.proy_mpio = t_municipios.id_mpio
-    //         INNER JOIN t_users
-    //         ON t_general.proy_seg = t_users.user_id
-    //         INNER JOIN t_sector
-    //         ON t_general.proy_sect = t_sector.id_sect WHERE proy_stat =1";
-
-    //====== Consulta condicional ternario =========
     $sql= ($id===null)  ? "SELECT * FROM t_general" 
                         : "SELECT * FROM t_general WHERE id_proy = '$id'";
     $resultado=$conexion->query($sql);
@@ -58,10 +53,8 @@ function consulta($conexion, $id){
         while($fila=$resultado->fetch_assoc()){
             $datos[]=$fila;
         }
-
-
         echo json_encode($datos);
-        // echo 'mensaaje ==> '.$id;
+        //echo 'mensaaje ==> '.$id;
     }
 }
 function insertar($conexion){
@@ -82,9 +75,8 @@ function insertar($conexion){
     echo 'El Id -> '.$id_proy.' <- fue creado!! '. PHP_EOL;
     echo 'Con el proyecto -> '.$proy_nom. PHP_EOL;
 
-    $sql=   "INSERT INTO t_general(id_proy, proy_nom, proy_sect, proy_tipo, proy_desc, proy_mpio, proy_inver, proy_e_dir, proy_e_ind, proy_fase, proy_estat, proy_seg, proy_stat) 
-            VALUES('$id_proy','$proy_nom','$proy_sect','$proy_tipo','$proy_desc','$proy_mpio','$proy_inver','$proy_e_dir','$proy_e_ind','$proy_fase','$proy_estat','$proy_seg','$proy_stat')";  
-    $resultado=$conexion->query($sql);
+    $sql="INSERT INTO t_general(id_proy, proy_nom, proy_sect, proy_tipo, proy_desc, proy_mpio, proy_inver, proy_e_dir, proy_e_ind, proy_fase, proy_estat, proy_seg, proy_stat) VALUES('$id_proy','$proy_nom','$proy_sect','$proy_tipo','$proy_desc','$proy_mpio','$proy_inver','$proy_e_dir','$proy_e_ind','$proy_fase','$proy_estat','$proy_seg','$proy_stat')";  
+       $resultado=$conexion->query($sql);
 
     if($resultado){
         $dato['id_proy'] = $conexion->insert_id_proy;
@@ -110,11 +102,10 @@ function actualiza($conexion, $id){
     $dato=json_decode(file_get_contents('php://input'),true);
     $proy_nom=$dato['proy_nom'];
     echo 'El Id -> '.$id.' <- fue actualizado!! '. PHP_EOL;
-    echo 'Con el dato -> '.$proy_nom. PHP_EOL;
+    echo 'Con el proyecto -> '.$proy_nom. PHP_EOL;
 
-    $sql=   "UPDATE t_general 
-            SET proy_nom = '$proy_nom' 
-            WHERE id_proy = '$id'";
+    $sql= "UPDATE t_general
+    SET proy_nom = '$proy_nom' WHERE id_proy = '$id'";
     $resultado=$conexion->query($sql);
 
     if($resultado){
@@ -123,4 +114,5 @@ function actualiza($conexion, $id){
         echo json_encode(array('error'=>'Error al Actualizar usuario'));
     }
 }
+
 ?>
